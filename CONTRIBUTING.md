@@ -3,11 +3,6 @@
 We're happy to accept 3rd-party contributions. Please make sure you read this document before you do any work though,
 as we have some expectations related to the content and quality of change sets.
 
-## What you should know about this application
-
-This project is a template Spring Boot application. It aims to speed up the creation of new Spring APIs in HMCTS
-projects, by serving as the initial setup of each API.
-
 ## Before contributing
 
 Any ideas on the user journeys and general service experience you may have **should be first consulted

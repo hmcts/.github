@@ -1,6 +1,11 @@
 name-template: 'v$NEXT_PATCH_VERSION 🌈'
 tag-template: 'v$NEXT_PATCH_VERSION'
 categories:
+  - title: ":boom: Breaking changes"
+    labels: 
+      - breaking
+  - title: 🚨 Removed
+    label: removed
   - title: '🚀 Features'
     labels:
       - 'feature'
@@ -12,6 +17,13 @@ categories:
       - 'bug'
   - title: '🧰 Maintenance'
     label: 'chore'
+  - title: 📦 Dependency updates
+    label: 'dependencies'
+exclude-labels:
+  - reverted
+  - no-changelog
+  - skip-changelog
+
 change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
 template: |
   ## Changes

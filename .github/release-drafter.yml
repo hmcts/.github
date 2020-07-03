@@ -19,6 +19,8 @@ categories:
     label: 'chore'
   - title: 📦 Dependency updates
     label: 'dependencies'
+  - title: 📝 Documentation
+    label: documentation
 exclude-labels:
   - reverted
   - no-changelog

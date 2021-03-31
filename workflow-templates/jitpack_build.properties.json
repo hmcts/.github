@@ -1,7 +1,7 @@
 {
   "name": "Trigger JitPack Build",
   "description": "A workflow to force JitPack to build when a tag is pushed.",
-  "iconName": "trigeer-jitpack-build",
+  "iconName": "trigger-jitpack-build",
   "categories": [
       "Shell"
   ],

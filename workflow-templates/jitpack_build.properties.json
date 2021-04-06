@@ -3,7 +3,8 @@
   "description": "A workflow to force JitPack to build when a tag is pushed.",
   "iconName": "hmcts-logotype-crest",
   "categories": [
-      "Shell"
+      "Java",
+      "Deployment"
   ],
   "filePatterns": [
       "build.gradle"

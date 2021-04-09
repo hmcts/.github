@@ -17,19 +17,23 @@ jobs:
         echo "Triggering JitPack build"
         
         PACKAGES_URL="https://jitpack.io/com/github/${GITHUB_REPOSITORY}/${GITHUB_REF#refs/tags/}/"
-        
+        PACKAGES_FILE="packages.txt"
+        touch ${PACKAGES_FILE}
         # Try the URL 3 times before failing
         count=1
-        until [[ $count -gt 3 ]] || [[ ${FILE_COUNT:-0} -gt 1 ]]; do
+        until [[ $count -gt 3 ]] || [[ $(cat ${PACKAGES_FILE} | wc -l | xargs ) -gt 1 ]] ; do
           echo "Attempt ${count}/3"
-          FILES=$(curl -sS --max-time 900 ${PACKAGES_URL})
-          FILE_COUNT=$(echo ${FILES} | wc -w | xargs)
+          STATUS=$(curl -s -o packages.txt -w "%{http_code}" --max-time 900 ${PACKAGES_URL})
+          
           let count+=1
           sleep 5
         done
         
         echo "::group::Files Available"
-        echo ${FILES}
+        echo $(cat ${PACKAGES_FILE})
         echo "::endgroup::"
         
-        if [[ $count -gt 3 ]]; then exit 1; fi
+        if [[ $count -gt 3 ]]; then 
+          echo "FAILURE: ${STATUS} response from JitPack"
+          exit 1 
+        fi

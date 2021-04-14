@@ -26,7 +26,7 @@ jobs:
           STATUS=$(curl -s -o packages.txt -w "%{http_code}" --max-time 900 ${PACKAGES_URL})
           
           let count+=1
-          sleep 5
+          sleep 30
         done
         
         echo "::group::Files Available"

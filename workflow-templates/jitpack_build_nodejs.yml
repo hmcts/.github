@@ -3,7 +3,8 @@ name: Node.js Package
 on:
   pull_request:
     branches:
-      - master
+      - $default-branch
+      - refs/tags/*
   push:
     branches:
       - $default-branch

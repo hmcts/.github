@@ -7,7 +7,9 @@
         "Deployment"
     ],
     "filePatterns": [
-        "build.gradle"
+        "package.json",
+        "yarn.lock",
+        "index.js"
     ]
   }
   

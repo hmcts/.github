@@ -1,5 +1,5 @@
 {
-    "name": "Trigger JitPack Build",
+    "name": "Publish Node.js library",
     "description": "A workflow to force JitPack to build when a tag is pushed.",
     "iconName": "hmcts-logotype-crest",
     "categories": [

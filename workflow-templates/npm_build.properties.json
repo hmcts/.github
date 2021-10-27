@@ -1,0 +1,14 @@
+{
+    "name": "Publish Node.js library",
+    "description": "A workflow for CI and publishing a Node.js library.",
+    "iconName": "hmcts-logotype-crest",
+    "categories": [
+        "NodeJs",
+        "Deployment"
+    ],
+    "filePatterns": [
+        "package.json",
+        "yarn.lock",
+        "index.js"
+    ]
+  }

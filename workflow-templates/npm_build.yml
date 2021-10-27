@@ -1,10 +1,15 @@
 name: Node.js
 
+variables:
+  - name: node-version
+    value: 14
+
+
 on:
   pull_request:
     branches:
       - $default-branch
-      - refs/tags/*
+      - refs/tags/*ss
   push:
     branches:
       - $default-branch
@@ -19,7 +24,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
         with:
-          node-version: 14
+          node-version: ${{ variables.node-version }}
       - run: npm ci
       - run: npm test
 
@@ -32,7 +37,7 @@ jobs:
       - uses: actions/setup-node@v1
         if: startsWith(github.ref, 'refs/tags')
         with:
-          node-version: 10
+          node-version: ${{ variables.node-version }}
           registry-url: https://registry.npmjs.org/
       - run: npm publish
         if: startsWith(github.ref, 'refs/tags')

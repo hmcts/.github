@@ -1,4 +1,4 @@
-name: Node.js Package
+name: Node.js
 
 on:
   pull_request:
@@ -19,7 +19,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
         with:
-          node-version: 10
+          node-version: 14
       - run: npm ci
       - run: npm test
 

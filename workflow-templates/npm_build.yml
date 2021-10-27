@@ -9,7 +9,6 @@ on:
   pull_request:
     branches:
       - $default-branch
-      - refs/tags/*ss
   push:
     branches:
       - $default-branch

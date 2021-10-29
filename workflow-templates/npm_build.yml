@@ -1,44 +1,30 @@
 name: Node.js
-
-variables:
-  - name: node-version
-    value: 14
-
-
 on:
-  pull_request:
-    branches:
-      - $default-branch
-  push:
-    branches:
-      - $default-branch
-      - refs/tags/*
-    tags:
-      - '*'
-
+  release:
+    types: [created]
 jobs:
-  build:
+  release:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+      - name: Checkout repo
+        uses: actions/checkout@v2
         with:
-          node-version: ${{ variables.node-version }}
-      - run: npm ci
-      - run: npm test
+          ref: ${{ github.event.release.target_commitish }}
 
-  publish-npm:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-        if: startsWith(github.ref, 'refs/tags')
-      - uses: actions/setup-node@v1
-        if: startsWith(github.ref, 'refs/tags')
+      - name: Validate and extract release information
+        id: release
+        uses: manovotny/github-releases-for-automated-package-publishing-action@v1.0.0
+
+      - name: Set node version and build
+        uses: actions/setup-node@v2
         with:
-          node-version: ${{ variables.node-version }}
-          registry-url: https://registry.npmjs.org/
-      - run: npm publish
-        if: startsWith(github.ref, 'refs/tags')
+          always-auth: true
+          node-version: '12.x'
+          registry-url: 'https://registry.npmjs.org'
+      - run: yarn install --frozen-lockfile
+      - run: yarn build
+
+      - name: Publish version
+        run: yarn publish --new-version ${{ steps.release.outputs.version }} --access public
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_API_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.npm_api_token }}

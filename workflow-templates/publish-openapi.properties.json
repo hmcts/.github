@@ -1,0 +1,11 @@
+{
+  "name": "Publish OpenAPI specs",
+  "description": "A workflow for publishing OpenAPI specs to the hmcts API docs repository cnp-api-docs.",
+  "iconName": "hmcts-logotype-crest",
+  "categories": [
+    "Java"
+  ],
+  "filePatterns": [
+    "build.gradle"
+  ]
+}

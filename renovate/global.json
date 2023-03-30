@@ -11,5 +11,11 @@
     "registryAliases": {
       "hmctspublic": "https://hmctspublic.azurecr.io/helm/v1/repo/"
     }
-  }
+  },
+  "regexManagers": [{
+    "fileMatch": ["^Dockerfile$"],
+    "matchStrings": [
+      "datasource=(?<datasource>.*?) depName=(?<depName>.*?)( versioning=(?<versioning>.*?))?\\sARG .*?_VERSION=(?<currentValue>.*)\\s"
+    ]
+  }]
 }

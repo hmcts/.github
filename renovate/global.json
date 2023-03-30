@@ -3,7 +3,7 @@
   "extends": ["config:base", ":dependencyDashboard"],
   "timezone": "Europe/London",
   "schedule": "after 7am and before 11am every weekday",
-  "labels": ["dependencies"]
+  "labels": ["dependencies"],
   
   "helmv3": {
     "fileMatch": ["\\Chart.yaml$"],

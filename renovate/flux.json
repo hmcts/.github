@@ -1,0 +1,23 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [":disableRateLimiting"],
+  "flux": {
+    "fileMatch": ["\\.yaml$"]
+  },
+  "kubernetes": {
+    "fileMatch": ["\\.yaml$"]
+  },
+  "regexManagers": [
+    {
+      "description": "Update Jenkins image",
+      "fileMatch": [
+        "\\.yaml$"
+      ],
+      "matchStrings": [
+        "# renovate: datasource=(?<datasource>.*?) depName=(?<depName>.*?)(?: versioning=(?<versioning>[a-z-]+?))?\\s+.+tag: (?<currentValue>.*)\\s+"
+      ]
+    }
+  ],
+  "commitMessageSuffix": "in {{packageFileDir}}",
+  "additionalBranchPrefix": "{{packageFileDir}}-"
+}

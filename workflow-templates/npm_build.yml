@@ -13,7 +13,7 @@ jobs:
 
       - name: Validate and extract release information
         id: release
-        uses: manovotny/github-releases-for-automated-package-publishing-action@v1.0.0
+        uses: manovotny/github-releases-for-automated-package-publishing-action@v2.0.1
 
       - name: Set node version and build
         uses: actions/setup-node@v2

@@ -18,6 +18,6 @@
       ]
     }
   ],
-  "commitMessageSuffix": "in {{packageFileDir}}",
-  "additionalBranchPrefix": "{{packageFileDir}}-"
+  "commitMessageSuffix": "in {{parentDir}}",
+  "additionalBranchPrefix": "{{parentDir}}-"
 }

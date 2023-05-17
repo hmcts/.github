@@ -1,16 +1,24 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [":disableRateLimiting"],
+  "extends": [
+    ":disableRateLimiting"
+  ],
   "flux": {
-    "fileMatch": ["\\.yaml$"]
+    "fileMatch": [
+      "\\.yaml$"
+    ]
   },
   "kubernetes": {
-    "fileMatch": ["\\.yaml$"]
+    "fileMatch": [
+      "\\.yaml$"
+    ]
   },
   "packageRules": [
     {
       "description": "Disable docker image update of flux, we use flux manager to update it",
-      "matchPackagePatterns": ["^ghcr.io/fluxcd/.*"],
+      "matchPackagePatterns": [
+        "^ghcr.io/fluxcd/.*"
+      ],
       "enabled": false
     }
   ],
@@ -18,11 +26,26 @@
     {
       "description": "Update Jenkins image",
       "fileMatch": [
-        "\\.yaml$"
+        "jenkins\\.yaml$"
       ],
       "matchStrings": [
-        "# renovate: datasource=(?<datasource>.*?) depName=(?<depName>.*?)(?: versioning=(?<versioning>[a-z-]+?))?\\s+.+tag: (?<currentValue>.*)\\s+"
-      ]
+        "tag: (?<currentValue>.*)\\s+"
+      ],
+      "datasourceTemplate": "docker",
+      "depNameTemplate": "hmctspublic.azurecr.io/jenkins/jenkins",
+      "versioningTemplate": "maven"
+    },
+    {
+      "description": "Update Jenkins image gallery version",
+      "fileMatch": [
+        "jenkins\\.yaml$"
+      ],
+      "matchStrings": [
+        "galleryImageVersion: \"(?<currentValue>.*)\"\\s+"
+      ],
+      "datasourceTemplate": "github-releases",
+      "depNameTemplate": "hmcts/jenkins-packer",
+      "versioningTemplate": "maven"
     }
   ],
   "commitMessageSuffix": "in {{parentDir}}",

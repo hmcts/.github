@@ -15,9 +15,10 @@
   },
   "packageRules": [
     {
-      "description": "Disable docker image update of flux, we use flux manager to update it",
+      "description": "Disable docker image update of flux, we use flux manager to update it. Also disables Camunda which is in a private registry",
       "matchPackagePatterns": [
-        "^ghcr.io/fluxcd/.*"
+        "^ghcr.io/fluxcd/.*",
+        "hmctsprivate.azurecr.io/camunda/optimize"
       ],
       "enabled": false
     }

@@ -1,12 +1,19 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [":disableRateLimiting", "docker:disable"],
+  "extends": [":disableRateLimiting"],
   "flux": {
     "fileMatch": ["\\.yaml$"]
   },
   "kubernetes": {
     "fileMatch": ["\\.yaml$"]
   },
+  "packageRules": [
+    {
+      "description": "Disable docker image update of flux, we use flux manager to update it",
+      "matchPackagePatterns": ["^ghcr.io/fluxcd/.*"],
+      "enabled": false
+    }
+  ],
   "regexManagers": [
     {
       "description": "Update Jenkins image",

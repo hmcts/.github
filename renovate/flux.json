@@ -33,7 +33,6 @@
       "matchPackageNames": ["hmctspublic.azurecr.io/jenkins/jenkins"],
       "automerge": true,
       "automergeType": "pr",
-      "platformAutomerge": true,
       "automergeSchedule": ["before 8am every weekday"]
     }
   ],

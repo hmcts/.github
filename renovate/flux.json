@@ -21,13 +21,26 @@
         "hmctsprivate.azurecr.io/camunda/optimize"
       ],
       "enabled": false
+    },
+    {
+      "matchPackageNames": ["hmcts/jenkins-packer"],
+      "automerge": true,
+      "automergeType": "pr",
+      "platformAutomerge": true
+    },
+    {
+      "matchPackageNames": ["hmctspublic.azurecr.io/jenkins/jenkins"],
+      "automerge": true,
+      "automergeType": "pr",
+      "platformAutomerge": true,
+      "automergeSchedule": ["before 8am every weekday"]
     }
   ],
   "regexManagers": [
     {
       "description": "Update Jenkins image",
       "fileMatch": [
-        "jenkins\\.yaml$"
+        "jenkins\\.yaml$", "jenkins-controller-version\\.yaml$"
       ],
       "matchStrings": [
         "tag: (?<currentValue>.*)\\s+"
@@ -39,7 +52,7 @@
     {
       "description": "Update Jenkins image gallery version",
       "fileMatch": [
-        "jenkins\\.yaml$"
+        "jenkins\\.yaml$", "jenkins-azure-vm-agent\\.yaml$"
       ],
       "matchStrings": [
         "galleryImageVersion: \"(?<currentValue>.*)\"\\s+"

@@ -33,7 +33,8 @@
       "matchPackageNames": ["hmctspublic.azurecr.io/jenkins/jenkins"],
       "automerge": true,
       "automergeType": "pr",
-      "automergeSchedule": ["before 8am every weekday"]
+      "schedule": "before 6am every weekday",
+      "automergeSchedule": ["before 6am every weekday"]
     }
   ],
   "regexManagers": [

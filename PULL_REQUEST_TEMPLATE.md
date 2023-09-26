@@ -1,4 +1,4 @@
-### JIRA link (if applicable)
+### Jira link (if applicable)
 
 
 

@@ -15,6 +15,10 @@ categories:
       - 'fix'
       - 'bugfix'
       - 'bug'
+  - title: 🚦 Tests
+    labels:
+      - test
+      - tests
   - title: '🧰 Maintenance'
     label: 'chore'
   - title: 📦 Dependency updates

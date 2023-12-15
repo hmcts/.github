@@ -19,5 +19,13 @@
     "registryAliases": {
       "hmctspublic": "https://hmctspublic.azurecr.io/helm/v1/repo/"
     }
-  }
+  },
+  "packageRules": [
+    {
+      "groupName": "flyway",
+      "matchPackagePatterns": [
+        "flyway"
+      ]
+    }
+  ]
 }

@@ -6,7 +6,7 @@
         "minor",
         "patch"
       ],
-      "automerge": false,
+      "automerge": true,
       "automergeType": "pr"
     }
   ],

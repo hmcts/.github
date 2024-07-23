@@ -31,8 +31,6 @@
     },
     {
       "matchPackageNames": ["hmctspublic.azurecr.io/jenkins/jenkins"],
-      "enabled": false,
-      "description": "Temporarily disabled until upgraded to Java 21 in DTSPO-17352",
       "automerge": true,
       "automergeType": "pr",
       "schedule": "before 6am every weekday",

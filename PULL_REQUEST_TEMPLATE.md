@@ -1,6 +1,10 @@
-### Jira link (if applicable)
+### Jira link
 
-
+<!-- 
+Replace PROJ-XXXXXX with your Jira key
+Remove this section if its not applicable, or replace it with another reference link
+-->
+See [PROJ-XXXXXX](https://tools.hmcts.net/jira/browse/PROJ-XXXXXX)
 
 ### Change description
 

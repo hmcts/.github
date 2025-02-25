@@ -27,7 +27,8 @@
       "matchPackageNames": ["hmcts/jenkins-packer"],
       "automerge": true,
       "automergeType": "pr",
-      "platformAutomerge": true
+      "platformAutomerge": true,
+      "allowedVersions": "<1.6.0"
     },
     {
       "matchPackageNames": ["hmctspublic.azurecr.io/jenkins/jenkins"],

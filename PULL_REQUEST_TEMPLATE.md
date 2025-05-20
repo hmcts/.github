@@ -25,6 +25,19 @@ For frontend changes, include screenshots of the relevant page(s) before and aft
 For refactoring and code cleanup changes, exercise the code before and after the change and verify the behavior remains the same.
 -->
 
+### Security Vulnerability Assessment ###
+
+<!-- Comment:
+If Yes to the below question, please provide details below:
+CVE ID(s): (List all suppressed or relevant CVE IDs)
+Reason for Suppression/Ignoring: (e.g., Low risk in our specific context, Mitigating controls in place, False positive - with justification)
+Mitigating Factors/Compensating Controls: Describe any measures taken to reduce the risk associated with the vulnerability
+-->
+
+**CVE Suppression:** Are there any CVEs present in the codebase (either newly introduced or pre-existing) that are being intentionally suppressed or ignored by this commit?
+  * [ ] Yes
+  * [ ] No
+
 ### Checklist
 
 <!-- Check each box by removing the space and adding an x, e.g. [x] -->

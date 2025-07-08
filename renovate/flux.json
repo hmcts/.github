@@ -35,6 +35,13 @@
       "automergeType": "pr",
       "schedule": "before 6am every weekday",
       "automergeSchedule": ["before 6am every weekday"]
+    },
+    {
+      "matchPackageNames": ["hmctspublic.azurecr.io/imported/kiwigrid/k8s-sidecar"],
+      "automerge": true,
+      "automergeType": "pr",
+      "schedule": "before 6am every weekday",
+      "automergeSchedule": ["before 6am every weekday"]
     }
   ],
   "regexManagers": [
@@ -48,6 +55,18 @@
       ],
       "datasourceTemplate": "docker",
       "depNameTemplate": "hmctspublic.azurecr.io/jenkins/jenkins",
+      "versioningTemplate": "maven"
+    },
+    {
+      "description": "Update k8s-sidecar image",
+      "fileMatch": [
+        "jenkins\\.yaml$"
+      ],
+      "matchStrings": [
+        "tag: (?<currentValue>.*)\\s+"
+      ],
+      "datasourceTemplate": "docker",
+      "depNameTemplate": "hmctspublic.azurecr.io/imported/kiwigrid/k8s-sidecar",
       "versioningTemplate": "maven"
     },
     {

@@ -16,7 +16,7 @@ jobs:
         uses: manovotny/github-releases-for-automated-package-publishing-action@v2.0.1
 
       - name: Set node version and build
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           always-auth: true
           node-version: '22.x'

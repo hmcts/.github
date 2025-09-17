@@ -1,6 +1,6 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "automerge": true,
+  "automerge": false,
   "automergeType": "pr",
-  "platformAutomerge": true
+  "platformAutomerge": false
 }

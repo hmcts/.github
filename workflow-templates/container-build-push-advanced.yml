@@ -1,0 +1,54 @@
+name: Build and Push Container (Advanced)
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - 'v*.*.*'
+  pull_request:
+
+jobs:
+  build-and-push:
+    name: Build and push container
+    uses: hmcts/.github/.github/workflows/container-build-and-push.yaml@master
+    with:
+      image-name: myapp
+      
+      # Multi-platform build for ARM and AMD architectures
+      platforms: linux/amd64,linux/arm64
+      
+      # Advanced tagging strategy
+      image-tags: |
+        type=ref,event=branch
+        type=ref,event=pr
+        type=semver,pattern={{version}}
+        type=sha
+        ${{ github.ref == 'refs/heads/main' && 'latest' || '' }}
+      
+      # Build arguments
+      build-args: |
+        BUILD_DATE=${{ github.event.head_commit.timestamp }}
+        VERSION=${{ github.ref_name }}
+        COMMIT_SHA=${{ github.sha }}
+      
+      # Don't push on pull requests (validation only)
+      push: ${{ github.event_name != 'pull_request' }}
+    
+    secrets:
+      REGISTRY_LOGIN_SERVER: ${{ secrets.REGISTRY_LOGIN_SERVER }}
+      REGISTRY_USERNAME: ${{ secrets.REGISTRY_USERNAME }}
+      REGISTRY_PASSWORD: ${{ secrets.REGISTRY_PASSWORD }}
+  
+  # Optional: Use the build outputs in a downstream job
+  deploy:
+    name: Deploy to environment
+    needs: build-and-push
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Show build information
+        run: |
+          echo "Image digest: ${{ needs.build-and-push.outputs.image-digest }}"
+          echo "Image tags: ${{ needs.build-and-push.outputs.image-tags }}"
+          # Add your deployment commands here

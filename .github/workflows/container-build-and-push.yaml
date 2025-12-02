@@ -23,7 +23,7 @@ on:
         required: true
         type: string
       image-tags:
-        description: 'Space-separated list of tags (e.g., "latest ${{ github.sha }}")'
+        description: 'Space-separated list of tags (e.g., "latest v1.0.0")'
         required: false
         type: string
         default: 'latest'

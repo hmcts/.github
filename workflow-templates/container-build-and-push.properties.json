@@ -1,0 +1,15 @@
+{
+    "name": "Build and push a container image to ACR (Reusable Workflow)",
+    "description": "A reusable workflow to build Docker images and push them to Azure Container Registry or other registries. Supports multi-platform builds, flexible tagging, build arguments, and service principal authentication.",
+    "iconName": "hmcts-logotype-crest",
+    "categories": [
+        "Deployment",
+        "Containerization",
+        "CI"
+    ],
+    "filePatterns": [
+        "^Dockerfile",
+        "docker-compose.*\\.ya?ml$"
+    ]
+  }
+  

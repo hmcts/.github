@@ -1,0 +1,12 @@
+{
+  "name": "Build and Push Container (Simple)",
+  "description": "Simple container build and push to ACR with minimal configuration. Perfect for getting started quickly.",
+  "iconName": "container",
+  "categories": [
+    "Deployment",
+    "Docker"
+  ],
+  "filePatterns": [
+    "Dockerfile"
+  ]
+}

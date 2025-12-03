@@ -8,7 +8,7 @@ on:
 jobs:
   build-and-push:
     name: Build and push container
-    uses: hmcts/.github/.github/workflows/container-build-and-push.yaml@master
+    uses: hmcts/cnp-githubactions-library/workflows/container-build-and-push.yaml@main
     with:
       image-name: myapp  # Change this to your application name
     secrets:

@@ -31,8 +31,14 @@
   ],
   "hostRules": [
     {
-      "description": "Credentials for my private registry (Docker images and OCI Helm charts)",
+      "description": "Credentials for Docker images from my private registry",
       "matchHost": "hmctsprod.azurecr.io",
+      "username": "{{ secrets.RENOVATE_ACR_APPID }}",
+      "password": "{{ secrets.RENOVATE_ACR_SECRET }}"
+    },
+    {
+      "description": "Credentials for OCI Helm charts from my private registry",
+      "matchHost": "oci://hmctsprod.azurecr.io/helm",
       "username": "{{ secrets.RENOVATE_ACR_APPID }}",
       "password": "{{ secrets.RENOVATE_ACR_SECRET }}"
     }

@@ -17,7 +17,8 @@
     ],
     "bumpVersion": "patch",
     "registryAliases": {
-      "hmctspublic": "oci://hmctspublic.azurecr.io/helm"
+      "hmctspublic": "oci://hmctspublic.azurecr.io/helm",
+      "hmctsprod": "oci://hmctsprod.azurecr.io/helm"
     }
   },
   "packageRules": [
@@ -30,8 +31,7 @@
   ],
   "hostRules": [
     {
-      "description": "Credentials for my private registry.",
-      "hostType": "docker",
+      "description": "Credentials for my private registry (Docker images and OCI Helm charts)",
       "matchHost": "hmctsprod.azurecr.io",
       "username": "{{ secrets.RENOVATE_ACR_APPID }}",
       "password": "{{ secrets.RENOVATE_ACR_SECRET }}"

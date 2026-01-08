@@ -27,5 +27,14 @@
         "flyway"
       ]
     }
+  ],
+  "hostRules": [
+    {
+      "description": "Credentials for my private registry.",
+      "hostType": "docker",
+      "matchHost": "hmctsprod.azurecr.io",
+      "username": "{{ secrets.RENOVATE_ACR_APPID }}",
+      "password": "{{ secrets.RENOVATE_ACR_SECRET }}"
+    }
   ]
 }

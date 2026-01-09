@@ -31,13 +31,6 @@
   ],
   "hostRules": [
     {
-      "description": "OCI scheme + user/token",
-      "matchHost": "oci://hmctsprod.azurecr.io/helm",
-      "hostType": "docker",
-      "username": "{{ secrets.RENOVATE_ACR_USER }}",
-      "password": "{{ secrets.RENOVATE_ACR_TOKEN }}"
-    },
-    {
       "description": "OCI scheme + appid/secret",
       "matchHost": "oci://hmctsprod.azurecr.io/helm",
       "hostType": "docker",
@@ -45,24 +38,11 @@
       "password": "{{ secrets.RENOVATE_ACR_SECRET }}"
     },
     {
-      "description": "HTTPS scheme + user/token (matches documented pattern)",
-      "matchHost": "https://hmctsprod.azurecr.io/helm",
-      "hostType": "docker",
-      "username": "{{ secrets.RENOVATE_ACR_USER }}",
-      "password": "{{ secrets.RENOVATE_ACR_TOKEN }}"
-    },
-    {
       "description": "HTTPS scheme + appid/secret (matches documented pattern)",
       "matchHost": "https://hmctsprod.azurecr.io/helm",
       "hostType": "docker",
       "username": "{{ secrets.RENOVATE_ACR_APPID }}",
       "password": "{{ secrets.RENOVATE_ACR_SECRET }}"
-    },
-    {
-      "description": "Hostname only + user/token (too broad)",
-      "matchHost": "hmctsprod.azurecr.io",
-      "username": "{{ secrets.RENOVATE_ACR_USER }}",
-      "password": "{{ secrets.RENOVATE_ACR_TOKEN }}"
     },
     {
       "description": "Hostname only + appid/secret (too broad)",

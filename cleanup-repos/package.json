@@ -1,0 +1,16 @@
+{
+    "name": "cleanup-repos",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "Platform Operations",
+    "license": "MIT",
+    "dependencies": {
+        "@octokit/graphql": "^4.6.1",
+        "@octokit/rest": "^18.5.3",
+        "date-fns": "^2.21.1"
+    }
+}

@@ -1,0 +1,16 @@
+name: Build and Push Container OpenId(Simple)
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-push:
+    name: Build and push container to Azure Container Registry
+    uses: hmcts/cnp-githubactions-library/.github/workflows/container-build-and-push-openId.yaml@main
+    with:
+      image-name: my-app
+      azureContainerRegistryName: hmctsprod
+      azureClientId: # service principal client id where federated credential is configured for you repo
+      azureTenantId: 531ff96d-0ae9-462a-8d2d-bec7c0b42082

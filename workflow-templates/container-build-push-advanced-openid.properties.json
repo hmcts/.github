@@ -1,0 +1,14 @@
+{
+  "name": "Build and Push Container OpenId (Advanced)",
+  "description": "Advanced container build with multi-platform support, semantic versioning, build arguments, and deployment integration.",
+  "iconName": "container",
+  "categories": [
+    "Deployment",
+    "Docker",
+    "CI"
+  ],
+  "filePatterns": [
+    "Dockerfile",
+    "*.dockerfile"
+  ]
+}

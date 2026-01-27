@@ -53,8 +53,21 @@ jobs:
           echo "GITHUB_OAUTH=${GH_TOKEN}" >> $GITHUB_ENV
 
       - name: Repository cleanup plan
+        id: run-cleanup
         if: github.ref != 'refs/heads/main'
-        run: node cleanup-repos/index.js
+        working-directory: cleanup-repos
+        run: |
+          node index.js > ../result.log
+          ARCHIVED=$(grep -oP '(?<=Archived ).*' ../result.log || true)
+          echo "archived-repos=$ARCHIVED" >> $GITHUB_OUTPUT
+       
+      - name: Comment on PR
+        if: github.event_name == 'pull_request'
+        uses: peter-evans/create-or-update-comment@v4
+        with:
+          token: ${{ secrets.GITHUB_MANAGEMENT_TOKEN }}
+          issue-number: ${{ github.event.pull_request.number }}
+          body: ${{ steps.run-cleanup.outputs.archived-repos }}
 
       - name: Repository cleanup apply
         if: github.ref == 'refs/heads/main'

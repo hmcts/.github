@@ -23,8 +23,6 @@ if (args.length === 0) {
     dryRun = false
 }
 
-const ALLOWED_WEEKS_FOR_A_REPO_TO_BE_EMPTY = 2
-
 const EXCLUSION_LIST = [
     'ccd-case-migration-template',
     'chart-ccd-elasticsearch',
@@ -126,29 +124,6 @@ function caseInsensitiveStringSort() {
 
 run()
     .then(results => {
-        const emptyRepositories = results
-            .filter(result => result.node.refs.totalCount === 0 &&
-                differenceInCalendarISOWeeks(new Date(), parseISO(result.node.updatedAt)) > ALLOWED_WEEKS_FOR_A_REPO_TO_BE_EMPTY
-            )
-            .map(repo => repo.node.name)
-            .sort(caseInsensitiveStringSort())
-
-        console.log(`Empty repositories: ${emptyRepositories.length}`)
-
-        emptyRepositories
-            .forEach(repo => {
-                console.log(repo)
-
-                if (!dryRun) {
-                    octokit.rest.repos.delete({
-                        owner: 'hmcts',
-                        repo,
-                    })
-                        .then(res => console.log(`Deleted ${res.url}`))
-                        .catch(err => console.log(err))
-                }
-            })
-
         const repositoriesNotUpdatedLongerThanAYear = results
             .filter(result =>
                 result.node.refs.totalCount !== 0 &&

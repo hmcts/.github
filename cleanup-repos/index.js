@@ -140,7 +140,7 @@ run()
 
         repositoriesNotUpdatedLongerThanAYear
             .forEach(repo => {
-                console.log(repo)
+                console.log(repo); // always log repo name
                 if (!dryRun) {
                     octokit.rest.repos.update({
                         owner: 'hmcts',
@@ -149,6 +149,8 @@ run()
                     })
                         .then(res => console.log(`Archived ${res.url}`))
                         .catch(err => console.log(err))
+                } else {
+                    console.log(`Would archive: ${repo}`);
                 }
             })
     })

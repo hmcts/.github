@@ -58,7 +58,7 @@ jobs:
         working-directory: cleanup-repos
         run: |
           node index.js > ../result.log
-          ARCHIVED=$(grep -oP '(?<=Archived ).*' ../result.log || true)
+          ARCHIVED=$(grep -oP '(?<=Would archive: ).*' ../result.log || true)
           echo "archived-repos=$ARCHIVED" >> $GITHUB_OUTPUT
        
       - name: Comment on PR

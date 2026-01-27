@@ -38,11 +38,11 @@ jobs:
         run: npm ci --only=production
         working-directory: cleanup-repos
 
-      - name: "Az CLI login"
+      - name: Azure CLI login
         uses: azure/login@v2
         with:
-          client-id: 59a87c48-2424-46cf-9f9b-2962fc70f4b8
-          tenant-id: 531ff96d-0ae9-462a-8d2d-bec7c0b42082
+          client-id: 59a87c48-2424-46cf-9f9b-2962fc70f4b8 # dts-cftptl-intsvc
+          tenant-id: 531ff96d-0ae9-462a-8d2d-bec7c0b42082 # HMCTS.NET
           allow-no-subscriptions: true
 
       - name: Get GitHub API token from KeyVault
@@ -57,20 +57,7 @@ jobs:
         id: run-cleanup
         if: github.ref != 'refs/heads/main'
         working-directory: cleanup-repos
-        run: |
-          # Run index.js in dry-run mode
-          ARCHIVED=$(node index.js \
-            | grep -oP '(?<=Archived ).*' \
-            | sed 's/^/- /' \
-            || true)
-          
-          if [ -n "$ARCHIVED" ]; then
-            echo "archived-repos<<EOF" >> $GITHUB_OUTPUT
-            echo "$ARCHIVED" >> $GITHUB_OUTPUT
-            echo "EOF" >> $GITHUB_OUTPUT
-          else
-            echo "archived-repos=" >> $GITHUB_OUTPUT
-          fi
+        run: node index.js
 
       - name: Comment on PR
         if: github.event_name == 'pull_request' && steps.run-cleanup.outputs.archived-repos != ''
@@ -79,9 +66,9 @@ jobs:
           token: ${{ secrets.GITHUB_MANAGEMENT_TOKEN }}
           issue-number: ${{ github.event.pull_request.number }}
           body: |
-            **Repositories that would be archived:**
-            ${{ steps.run-cleanup.outputs.archived-repos }}
+            Archived repositories this run: ${{ steps.run-cleanup.outputs.archived-repos }}
 
       - name: Repository cleanup apply
         if: github.ref == 'refs/heads/main'
-        run: node cleanup-repos/index.js apply
+        working-directory: cleanup-repos
+        run: node index.js apply

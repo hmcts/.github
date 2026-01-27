@@ -133,6 +133,7 @@ run()
         const repositoriesToArchive = results
             .filter(
                 (result) =>
+                    result?.node?.refs &&
                     result.node.refs.totalCount !== 0 &&
                     !EXCLUSION_LIST.includes(result.node.name) &&
                     differenceInCalendarISOWeeks(new Date(), parseISO(result.node.updatedAt)) > 52
@@ -141,6 +142,8 @@ run()
             .sort(caseInsensitiveStringSort());
 
         console.log(`In-active repositories: ${repositoriesToArchive.length}\n`);
+
+        const archivedNames = [];
 
         for (const repo of repositoriesToArchive) {
             if (!dryRun) {
@@ -155,8 +158,14 @@ run()
                     console.error(`Failed to archive ${repo}:`, err);
                 }
             } else {
-                console.log(`Archived ${repo}`);
+                console.log(`Would archive: ${repo}`);
             }
+            archivedNames.push(repo);
+        }
+
+        if (process.env.GITHUB_OUTPUT) {
+            console.log(`archived-repos=${archivedNames.join(",")}`);
+            require("fs").appendFileSync(process.env.GITHUB_OUTPUT, `archived-repos=${archivedNames.join(",")}\n`);
         }
     })
     .catch(console.error);

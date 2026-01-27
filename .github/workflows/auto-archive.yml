@@ -62,7 +62,7 @@ jobs:
           echo "archived-repos=$ARCHIVED" >> $GITHUB_OUTPUT
        
       - name: Comment on PR
-        if: github.event_name == 'pull_request'
+        if: github.event_name == 'pull_request' && steps.run-cleanup.outputs.archived-repos != ''
         uses: peter-evans/create-or-update-comment@v4
         with:
           token: ${{ secrets.GITHUB_MANAGEMENT_TOKEN }}

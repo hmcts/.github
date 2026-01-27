@@ -19,7 +19,8 @@
       "description": "Disable docker image update of flux, we use flux manager to update it. Also disables Camunda which is in a private registry",
       "matchPackagePatterns": [
         "^ghcr.io/fluxcd/.*",
-        "hmctsprivate.azurecr.io/camunda/optimize"
+        "hmctsprivate.azurecr.io/camunda/optimize",
+        "hmctsprod.azurecr.io/camunda/optimize"
       ],
       "enabled": false
     },
@@ -30,14 +31,14 @@
       "platformAutomerge": true
     },
     {
-      "matchPackageNames": ["hmctspublic.azurecr.io/jenkins/jenkins"],
+      "matchPackageNames": ["hmctspublic.azurecr.io/jenkins/jenkins", "hmctsprod.azurecr.io/jenkins/jenkins"],
       "automerge": true,
       "automergeType": "pr",
       "schedule": "before 6am every weekday",
       "automergeSchedule": ["before 6am every weekday"]
     },
     {
-      "matchPackageNames": ["hmctspublic.azurecr.io/imported/kiwigrid/k8s-sidecar"],
+      "matchPackageNames": ["hmctspublic.azurecr.io/imported/kiwigrid/k8s-sidecar", "hmctsprod.azurecr.io/imported/kiwigrid/k8s-sidecar"],
       "automerge": true,
       "automergeType": "pr",
       "schedule": "before 6am every weekday",
@@ -58,6 +59,18 @@
       "versioningTemplate": "maven"
     },
     {
+      "description": "Update Jenkins image (hmctsprod)",
+      "fileMatch": [
+        "jenkins\\.yaml$", "jenkins-controller-version\\.yaml$"
+      ],
+      "matchStrings": [
+        "tag: (?<currentValue>.*)\\s+"
+      ],
+      "datasourceTemplate": "docker",
+      "depNameTemplate": "hmctsprod.azurecr.io/jenkins/jenkins",
+      "versioningTemplate": "maven"
+    },
+    {
       "description": "Update k8s-sidecar image",
       "fileMatch": [
         "jenkins\\.yaml$"
@@ -67,6 +80,18 @@
       ],
       "datasourceTemplate": "docker",
       "depNameTemplate": "hmctspublic.azurecr.io/imported/kiwigrid/k8s-sidecar",
+      "versioningTemplate": "maven"
+    },
+    {
+      "description": "Update k8s-sidecar image (hmctsprod)",
+      "fileMatch": [
+        "jenkins\\.yaml$"
+      ],
+      "matchStrings": [
+        "tag: (?<currentValue>.*)\\s+"
+      ],
+      "datasourceTemplate": "docker",
+      "depNameTemplate": "hmctsprod.azurecr.io/imported/kiwigrid/k8s-sidecar",
       "versioningTemplate": "maven"
     },
     {

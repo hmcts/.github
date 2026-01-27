@@ -16,7 +16,7 @@ permissions:
 
 jobs:
   cleanup:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     timeout-minutes: 60
     concurrency:
       group: auto-archive-inactive-repos

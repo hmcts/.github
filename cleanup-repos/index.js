@@ -90,20 +90,22 @@ async function getRepositories(cursor) {
 
 async function run() {
     const results = []
-
     const start = new Date()
-    let pagedResult = await getRepositories(null);
-    if (pagedResult.search.edges.length !== 0) {
-        results.push(...pagedResult.search.edges)
-    }
 
-    while (pagedResult.search.edges.length !== 0) {
-        pagedResult = await getRepositories(last(pagedResult.search.edges).cursor);
-        results.push(...pagedResult.search.edges)
+    let cursor = null
+    let hasNext = true
+
+    while (hasNext) {
+        const pagedResult = await getRepositories(cursor)
+        const edges = (pagedResult && pagedResult.search && pagedResult.search.edges) || []
+        results.push(...edges)
+
+        const pageInfo = pagedResult && pagedResult.search && pagedResult.search.pageInfo
+        cursor = pageInfo && pageInfo.endCursor ? pageInfo.endCursor : null
+        hasNext = pageInfo && pageInfo.hasNextPage ? true : false
     }
 
     console.log('Completed in: ', formatDuration(intervalToDuration({ start: start, end: new Date() })))
-
     return results
 }
 

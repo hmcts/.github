@@ -130,23 +130,24 @@ function caseInsensitiveStringSort() {
 
 run()
     .then(async (results) => {
+        // Filter inactive repos older than 52 weeks, excluding only the EXCLUSION_LIST
         const repositoriesToArchive = results
             .filter(
                 (result) =>
-                    result?.node?.refs &&
-                    result.node.refs.totalCount !== 0 &&
-                    !EXCLUSION_LIST.includes(result.node.name) &&
+                    !EXCLUSION_LIST.includes(result?.node?.name) &&
                     differenceInCalendarISOWeeks(new Date(), parseISO(result.node.updatedAt)) > 52
             )
             .map((repo) => repo.node.name)
             .sort(caseInsensitiveStringSort());
 
-        console.log(`\nArchived repositories for this run (dry-run mode):`);
-        console.log(`In-active repositories: ${repositoriesToArchive.length}\n`);
-
-        // Only show "Would archive" lines
-        repositoriesToArchive.forEach((repo) => {
-            console.log(`Would archive: ${repo}`);
-        });
+        // Only show output if there are repos to archive
+        if (repositoriesToArchive.length > 0) {
+            console.log(`\nWould archive the following repositories:\n`);
+            repositoriesToArchive.forEach((repo) => {
+                console.log(repo);
+            });
+        } else {
+            console.log("\nNo repositories to archive this run.");
+        }
     })
     .catch(console.error);

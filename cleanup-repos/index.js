@@ -141,31 +141,12 @@ run()
             .map((repo) => repo.node.name)
             .sort(caseInsensitiveStringSort());
 
+        console.log(`\nArchived repositories for this run (dry-run mode):`);
         console.log(`In-active repositories: ${repositoriesToArchive.length}\n`);
 
-        const archivedNames = [];
-
-        for (const repo of repositoriesToArchive) {
-            if (!dryRun) {
-                try {
-                    await octokit.rest.repos.update({
-                        owner: "hmcts",
-                        repo,
-                        archived: true,
-                    });
-                    console.log(`Archived ${repo}`);
-                } catch (err) {
-                    console.error(`Failed to archive ${repo}:`, err);
-                }
-            } else {
-                console.log(`Would archive: ${repo}`);
-            }
-            archivedNames.push(repo);
-        }
-
-        if (process.env.GITHUB_OUTPUT) {
-            console.log(`archived-repos=${archivedNames.join(",")}`);
-            require("fs").appendFileSync(process.env.GITHUB_OUTPUT, `archived-repos=${archivedNames.join(",")}\n`);
-        }
+        // Only show "Would archive" lines
+        repositoriesToArchive.forEach((repo) => {
+            console.log(`Would archive: ${repo}`);
+        });
     })
     .catch(console.error);

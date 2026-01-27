@@ -56,10 +56,7 @@ jobs:
       - name: Repository cleanup plan
         if: github.ref != 'refs/heads/main'
         working-directory: cleanup-repos
-        run: |
-          node index.js > ../result.log
-          echo "Archived repositories for this run (dry-run mode):"
-          cat ../result.log
+        run: node index.js 
 
       - name: Repository cleanup apply
         if: github.ref == 'refs/heads/main'

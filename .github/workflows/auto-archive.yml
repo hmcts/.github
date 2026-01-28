@@ -62,8 +62,10 @@ jobs:
         run: |
           echo -n "token-length: " && echo -n "${GITHUB_OAUTH}" | wc -c
           echo -n "token-sample: " && echo -n "${GITHUB_OAUTH}" | sed -E 's/(.{4}).*(.{4})/\1...\2/'
-          status=$(curl -s -o /dev/null -w "%{http_code}" -H "Authorization: token ${GITHUB_OAUTH}" https://api.github.com/user)
-          echo "github-api-status=$status"
+          # basic auth test (HTTP status)
+          curl -s -o /dev/null -w "github-api-status=%{http_code}\n" -H "Authorization: token ${GITHUB_OAUTH}" https://api.github.com/user
+          # check for SAML header (indicates SAML SSO enforcement)
+          curl -s -D - -o /dev/null -H "Authorization: token ${GITHUB_OAUTH}" https://api.github.com/user | grep -i 'X-GitHub-SSO' || true
         env:
           GITHUB_OAUTH: ${{ env.GITHUB_OAUTH }}
 

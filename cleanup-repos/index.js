@@ -135,7 +135,7 @@ run()
                 (result) =>
                     result?.node &&
                     !EXCLUSION_LIST.includes(result.node.name) &&
-                    differenceInCalendarISOWeeks(new Date(), parseISO(result.node.updatedAt)) > 52
+                    differenceInCalendarISOWeeks(new Date(), parseISO(result.node.updatedAt)) > 104
             )
             .map((repo) => repo.node.name)
             .sort(caseInsensitiveStringSort());

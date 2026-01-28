@@ -51,7 +51,21 @@ jobs:
             --vault-name cftptl-intsvc \
             --name github-management-api-token \
             --query value -o tsv)
+          if [ -z "$GH_TOKEN" ]; then
+            echo "GitHub token is empty or not returned from KeyVault"
+            exit 1
+          fi
           echo "GITHUB_OAUTH=${GH_TOKEN}" >> $GITHUB_ENV
+
+      - name: Debug: validate GitHub token
+        if: always()
+        run: |
+          echo -n "token-length: " && echo -n "$GITHUB_OAUTH" | wc -c
+          echo -n "token-sample: " && echo -n "$GITHUB_OAUTH" | sed -E 's/(.{4}).*(.{4})/\1...\2/'
+          status=$(curl -s -o /dev/null -w "%{http_code}" -H "Authorization: token $GITHUB_OAUTH" https://api.github.com/user)
+          echo "github-api-status=$status"
+        env:
+          GITHUB_OAUTH: ${{ env.GITHUB_OAUTH }}
 
       - name: Repository cleanup (dry-run)
         if: github.event_name != 'schedule'

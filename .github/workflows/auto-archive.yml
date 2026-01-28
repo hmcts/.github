@@ -30,7 +30,9 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: cleanup-repos/package-lock.json
 
       - name: Install dependencies
         working-directory: cleanup-repos
@@ -70,9 +72,9 @@ jobs:
       - name: Repository cleanup (dry-run)
         if: github.event_name != 'schedule'
         working-directory: cleanup-repos
-        run: node index.js 
+        run: npm run cleanup
 
       - name: Repository cleanup (apply)
         if: github.event_name == 'schedule'
         working-directory: cleanup-repos
-        run: node index.js :apply
+        run: npm run cleanup:apply

@@ -51,18 +51,14 @@ jobs:
             --vault-name cftptl-intsvc \
             --name github-management-api-token \
             --query value -o tsv)
-          if [ -z "$GH_TOKEN" ]; then
-            echo "GitHub token is empty or not returned from KeyVault"
-            exit 1
-          fi
           echo "GITHUB_OAUTH=${GH_TOKEN}" >> $GITHUB_ENV
 
-      - name: Repository cleanup (dry-run)
-        if: github.event_name != 'schedule'
+      - name: Repository cleanup plan
+        if: github.ref != 'refs/heads/main'
         working-directory: cleanup-repos
-        run: node index.js
+        run: node index.js 
 
-      - name: Repository cleanup (apply)
-        if: github.event_name == 'schedule'
+      - name: Repository cleanup apply
+        if: github.ref == 'refs/heads/main'
         working-directory: cleanup-repos
-        run: node index.js:apply
+        run: node index.js apply

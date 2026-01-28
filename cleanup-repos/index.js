@@ -46,7 +46,7 @@ const EXCLUSION_LIST = [
     "chart-function",
     "cnp-artifactory-init",
     "cnp-node-base",
-    "sandbox-aut-cleardown",
+    "sandbox-auto-cleardown",
     "dtspo-orphan-resources-cleanup",
     "auto-shutdown",
 ];

@@ -129,7 +129,6 @@ async function run() {
     let hasNext = true;
 
     while (hasNext) {
-        console.log("Fetching page, cursor:", cursor);
 
         const pagedResult = await withRetry(
             () => getRepositories(cursor),

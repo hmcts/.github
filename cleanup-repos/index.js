@@ -55,6 +55,31 @@ function last(array) {
     return array[array.length - 1];
 }
 
+async function withRetry(fn, { retries = 3, delayMs = 2000 } = {}) {
+    let attempt = 0;
+
+    while (true) {
+        try {
+            return await fn();
+        } catch (err) {
+            attempt++;
+
+            const status = err?.status;
+            const retriable = [502, 503, 504].includes(status);
+
+            if (!retriable || attempt > retries) {
+                throw err;
+            }
+
+            console.warn(
+                `Request failed (status ${status}). Retrying ${attempt}/${retries} in ${delayMs}ms...`
+            );
+
+            await new Promise((res) => setTimeout(res, delayMs));
+        }
+    }
+}
+
 async function getRepositories(cursor) {
     return graphql(
         `
@@ -71,8 +96,6 @@ async function getRepositories(cursor) {
                 name
                 id
                 updatedAt
-                refs(refPrefix: "refs/heads/") {
-                  totalCount
                 }
               }
             }
@@ -91,6 +114,9 @@ async function getRepositories(cursor) {
             headers: {
                 authorization: `token ${auth}`,
             },
+            request: {
+                timeout: 10000,
+            },
         }
     );
 }
@@ -106,7 +132,10 @@ async function run() {
     while (hasNext) {
         console.log("Fetching page, cursor:", cursor);
 
-        const pagedResult = await getRepositories(cursor);
+        const pagedResult = await withRetry(
+            () => getRepositories(cursor),
+            { retries: 3, delayMs: 2000 }
+        );
         const edges = (pagedResult?.search?.edges) || [];
         results.push(...edges);
 
@@ -149,7 +178,10 @@ run()
                 console.log(repo);
             });
         } else {
-            console.log("\nNo repositories to archive this run.");
+            console.log("\nNo repositories to archive this run.")
         }
     })
-    .catch(console.error);
+    .catch((err) => {
+        console.error("Cleanup failed:", err);
+        process.exit(1);
+    });

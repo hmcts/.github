@@ -135,6 +135,7 @@ async function run() {
             () => getRepositories(cursor),
             { retries: 3, delayMs: 2000 }
         );
+
         const edges = (pagedResult?.search?.edges) || [];
         results.push(...edges);
 

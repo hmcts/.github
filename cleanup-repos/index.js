@@ -83,32 +83,31 @@ async function withRetry(fn, { retries = 3, delayMs = 2000 } = {}) {
 async function getRepositories(cursor) {
     return graphql(
         `
-      query ($cursor: String) {
-        search(
-          first: 100
-          after: $cursor
-          type: REPOSITORY
-          query: "user:hmcts archived:false"
-        ) {
-          edges {
-            node {
-              ... on Repository {
-                name
-                id
-                updatedAt
+        query ($cursor: String) {
+          search(
+            first: 100
+            after: $cursor
+            type: REPOSITORY
+            query: "user:hmcts archived:false"
+          ) {
+            edges {
+              node {
+                ... on Repository {
+                  name
+                  id
+                  updatedAt
                 }
               }
+              cursor
             }
-            cursor
-          }
-          repositoryCount
-          pageInfo {
-            endCursor
-            hasNextPage
+            repositoryCount
+            pageInfo {
+              endCursor
+              hasNextPage
+            }
           }
         }
-      }
-    `,
+        `,
         {
             cursor,
             headers: {

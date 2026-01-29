@@ -96,6 +96,7 @@ async function getRepositories(cursor) {
 }
 
 async function run() {
+    console.log("Cleanup script started");
     const results = [];
     const start = new Date();
 
@@ -103,6 +104,8 @@ async function run() {
     let hasNext = true;
 
     while (hasNext) {
+        console.log("Fetching page, cursor:", cursor);
+
         const pagedResult = await getRepositories(cursor);
         const edges = (pagedResult?.search?.edges) || [];
         results.push(...edges);

@@ -172,7 +172,7 @@ run()
             .sort(caseInsensitiveStringSort());
 
         if (repositoriesToArchive.length > 0) {
-            console.log(`\n\nWould archive the following repositories:\n`);
+            console.log("\nWould archive the following repositories:\n");
             repositoriesToArchive.forEach((repo) => {
                 console.log(repo);
             });

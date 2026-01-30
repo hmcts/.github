@@ -1,0 +1,64 @@
+name: auto-archive-inactive-repos
+
+on:
+  schedule:
+    - cron: '0 10 * * MON'
+  push:
+    branches: [ main ]
+    paths:
+      - cleanup-repos/**
+  pull_request:
+    paths:
+      - cleanup-repos/**
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    concurrency:
+      group: auto-archive-inactive-repos
+      cancel-in-progress: false
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: 'npm'
+          cache-dependency-path: cleanup-repos/package-lock.json
+
+      - name: Install dependencies
+        working-directory: cleanup-repos
+        run: npm ci --only=production
+
+      - name: Azure CLI login
+        uses: azure/login@v2
+        with:
+          client-id: 59a87c48-2424-46cf-9f9b-2962fc70f4b8 # dts-cftptl-intsvc
+          tenant-id: 531ff96d-0ae9-462a-8d2d-bec7c0b42082 # HMCTS.NET
+          allow-no-subscriptions: true
+
+      - name: Get GitHub API token from KeyVault
+        run: |
+          GH_TOKEN=$(az keyvault secret show \
+            --vault-name cftptl-intsvc \
+            --name github-management-api-token \
+            --query value -o tsv)
+          echo "GITHUB_OAUTH=${GH_TOKEN}" >> $GITHUB_ENV
+
+      - name: Repository cleanup (dry-run)
+        if: github.event_name != 'schedule'
+        working-directory: cleanup-repos
+        run: npm run cleanup
+
+      - name: Repository cleanup (apply)
+        if: github.event_name == 'schedule'
+        working-directory: cleanup-repos
+        run: npm run cleanup:apply

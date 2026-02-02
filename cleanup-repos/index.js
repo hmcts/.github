@@ -168,13 +168,13 @@ run()
                     !EXCLUSION_LIST.includes(result.node.name) &&
                     differenceInCalendarISOWeeks(new Date(), parseISO(result.node.updatedAt)) > 104
             )
-            .map((repo) => repo.node.name)
-            .sort(caseInsensitiveStringSort());
+            .map((repo) => repo.node)
+            .sort((a, b) => caseInsensitiveStringSort()(a.name, b.name));
 
         if (repositoriesToArchive.length > 0) {
             console.log("\nWould archive the following repositories:\n");
             repositoriesToArchive.forEach((repo) => {
-                console.log(repo);
+                console.log(repo.name);
             });
             if (!dryRun) {
                 console.log("\nArchiving repositories...\n");

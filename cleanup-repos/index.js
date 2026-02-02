@@ -176,6 +176,21 @@ run()
             repositoriesToArchive.forEach((repo) => {
                 console.log(repo);
             });
+            if (!dryRun) {
+                console.log("\nArchiving repositories...\n");
+                for (const repo of repositoriesToArchive) {
+                    try {
+                        await octokit.rest.repos.update({
+                            owner: "hmcts",
+                            repo: repo.name,
+                            archived: true,
+                        });
+                        console.log(`Archived ${repo.name}`);
+                    } catch (err) {
+                        console.error(`Failed to archive ${repo.name}:`, err.message);
+                    }
+                }
+            }
         } else {
             console.log("\nNo repositories to archive this run.")
         }

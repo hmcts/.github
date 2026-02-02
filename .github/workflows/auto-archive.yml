@@ -2,7 +2,7 @@ name: auto-archive-inactive-repos
 
 on:
   schedule:
-    - cron: '30 12 * * MON'
+    - cron: '15 13 * * MON'
   push:
     paths:
       - cleanup-repos/**

@@ -10,8 +10,8 @@
     "author": "Platform Operations",
     "license": "MIT",
     "dependencies": {
-        "@octokit/graphql": "^4.6.1",
-        "@octokit/rest": "^18.5.3",
+        "@octokit/graphql": "^9.0.3",
+        "@octokit/rest": "^22.0.1",
         "date-fns": "^4.0.0"
     }
 }

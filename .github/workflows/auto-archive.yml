@@ -38,7 +38,7 @@ jobs:
         run: npm ci --only=production
 
       - name: Azure CLI login
-        uses: azure/login@v2
+        uses: azure/login@v3
         with:
           client-id: 59a87c48-2424-46cf-9f9b-2962fc70f4b8 # dts-cftptl-intsvc
           tenant-id: 531ff96d-0ae9-462a-8d2d-bec7c0b42082 # HMCTS.NET

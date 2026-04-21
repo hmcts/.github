@@ -17,7 +17,8 @@ const octokit = new Octokit({
 });
 
 const args = process.argv.slice(2);
-const dryRun = args[0] !== "apply";
+const applyMode = args.includes("apply");
+const dryRun = !applyMode;
 
 const EXCLUSION_LIST = [
     "ccd-case-migration-template",
@@ -50,10 +51,6 @@ const EXCLUSION_LIST = [
     "dtspo-orphan-resources-cleanup",
     "auto-shutdown",
 ];
-
-function last(array) {
-    return array[array.length - 1];
-}
 
 async function withRetry(fn, { retries = 3, delayMs = 2000 } = {}) {
     let attempt = 0;
@@ -172,12 +169,24 @@ run()
             .sort((a, b) => caseInsensitiveStringSort()(a.name, b.name));
 
         if (repositoriesToArchive.length > 0) {
-            console.log("\nWould archive the following repositories:\n");
-            repositoriesToArchive.forEach((repo) => {
-                console.log(repo.name);
-            });
-            if (!dryRun) {
+            const preview = repositoriesToArchive.map((repo) => ({
+                repository: repo.name,
+                updatedAt: repo.updatedAt,
+                inactiveWeeks: differenceInCalendarISOWeeks(new Date(), parseISO(repo.updatedAt)),
+            }));
+
+            if (dryRun) {
+                console.log("\nREAD-ONLY PREVIEW MODE: no repositories will be archived.\n");
+            } else {
+                console.log("\nAPPLY MODE: the following repositories will be archived.\n");
+            }
+
+            console.table(preview);
+
+            if (applyMode) {
                 console.log("\nArchiving repositories...\n");
+                const archivedRepos = [];
+
                 for (const repo of repositoriesToArchive) {
                     try {
                         await octokit.rest.repos.update({
@@ -185,14 +194,23 @@ run()
                             repo: repo.name,
                             archived: true,
                         });
+                        archivedRepos.push(repo.name);
                         console.log(`Archived ${repo.name}`);
                     } catch (err) {
                         console.error(`Failed to archive ${repo.name}:`, err.message);
                     }
                 }
+
+                console.log(`\nArchived ${archivedRepos.length} repositories this run.`);
+                if (archivedRepos.length > 0) {
+                    console.log("Repositories archived:");
+                    archivedRepos
+                        .sort(caseInsensitiveStringSort())
+                        .forEach((repositoryName) => console.log(`- ${repositoryName}`));
+                }
             }
         } else {
-            console.log("\nNo repositories to archive this run.")
+            console.log("\nNo repositories to archive this run.");
         }
     })
     .catch((err) => {

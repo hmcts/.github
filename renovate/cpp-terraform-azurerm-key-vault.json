@@ -1,0 +1,23 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "packageRules": [
+    {
+      "description": "Automerge minor and patch updates for the CPP Terraform key-vault module",
+      "matchDatasources": ["terraform-module"],
+      "matchManagers": ["terraform"],
+      "matchSourceUrls": ["https://github.com/hmcts/cpp-module-terraform-azurerm-key-vault"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "automerge": true,
+      "automergeType": "pr"
+    },
+    {
+      "description": "Create PRs for major updates to the CPP Terraform key-vault module without automerging",
+      "matchDatasources": ["terraform-module"],
+      "matchManagers": ["terraform"],
+      "matchSourceUrls": ["https://github.com/hmcts/cpp-module-terraform-azurerm-key-vault"],
+      "matchUpdateTypes": ["major"],
+      "automerge": false,
+      "platformAutomerge": false
+    }
+  ]
+}

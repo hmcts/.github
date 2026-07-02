@@ -1,0 +1,32 @@
+# Repositories permanently excluded from auto-archive.
+# Teams can also self-service by adding the GitHub topic "no-auto-archive" to a repo.
+repositories:
+  - ccd-case-migration-template
+  - chart-ccd-elasticsearch
+  - chart-idam-preview
+  - cnp-java-base
+  - cnp-module-action-group
+  - cnp-module-metric-alert
+  - cnp-module-api-mgmt-api
+  - cnp-module-api-mgmt-api-policy
+  - cnp-module-api-mgmt-product
+  - cnp-plum-batch
+  - idam-docker-utils
+  - one-per-page
+  - security-test-rules
+  - sscs-case-creator
+  - ethos-repl-migration-caseloader
+  - ccd-docker-user-profile-importer
+  - rdo-ssl-creation
+  - div-test-harness
+  - vh-core-infra
+  - vh-monitoring
+  - probatemandb
+  - terraform-module-servicebus-subscription
+  - terraform-module-servicebus-queue
+  - chart-function
+  - cnp-artifactory-init
+  - cnp-node-base
+  - sandbox-auto-cleardown
+  - dtspo-orphan-resources-cleanup
+  - auto-shutdown

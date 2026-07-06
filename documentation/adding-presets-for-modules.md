@@ -84,7 +84,7 @@ Changelog action should now be able to push changelog file updates directly to y
 
 ## 4. Add new Renovate preset for the Terraform module
 
-åAdd new Terraform module preset to this repository, use  [cpp-terraform-azurerm-key-vault.json](./renovate/cpp-terraform-azurerm-key-vault.json) as an example:
+Add new Terraform module preset to this repository, use  [cpp-terraform-azurerm-key-vault.json](./renovate/cpp-terraform-azurerm-key-vault.json) as an example:
 ```
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",

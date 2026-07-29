@@ -12,6 +12,7 @@
     "dependencies": {
         "@octokit/graphql": "^9.0.0",
         "@octokit/rest": "^22.0.0",
-        "date-fns": "^4.0.0"
+        "date-fns": "^4.0.0",
+        "yaml": "^2.8.0"
     }
 }

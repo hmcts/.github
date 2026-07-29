@@ -6,9 +6,11 @@ on:
   push:
     paths:
       - cleanup-repos/**
+      - .github/workflows/auto-archive.yml
   pull_request:
     paths:
       - cleanup-repos/**
+      - .github/workflows/auto-archive.yml
 
 permissions:
   id-token: write
@@ -60,4 +62,7 @@ jobs:
       - name: Repository cleanup (apply)
         if: github.event_name == 'schedule'
         working-directory: cleanup-repos
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.CLOUD_NATIVE_ANNOUNCE_SLACK_WEBHOOK_URL }}
+          PRE_ARCHIVE_SLACK_CHANNEL: "#cloud-native-announce"
         run: npm run cleanup:apply

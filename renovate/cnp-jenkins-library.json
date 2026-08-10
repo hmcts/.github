@@ -1,0 +1,34 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "packageRules": [
+    {
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
+      "automerge": true,
+      "automergeType": "pr"
+    },
+    {
+      "matchUpdateTypes": [
+        "major"
+      ],
+      "automerge": false,
+      "platformAutomerge": false
+    }
+  ],
+    "customManagers": [
+      {
+        "customType": "regex",
+        "description": "Track @Library versions in Jenkinsfiles via GitHub releases",
+        "managerFilePatterns": ["/^Jenkinsfile_.*$/"],
+        "matchStrings": [
+           "@Library\\(\\s*[\"'](?<depName>[^@\"']+)@(?<currentValue>[^\"']+)[\"']\\s*\\)"
+        ],
+        "datasourceTemplate": "github-tags",
+        "packageNameTemplate": "hmcts/cnp-jenkins-library",
+        "depNameTemplate": "Jenkins-{{{depName}}}",
+        "versioningTemplate": "semver"
+      }
+    ]
+}

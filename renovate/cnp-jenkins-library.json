@@ -2,6 +2,8 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "packageRules": [
     {
+      "matchDatasources": ["github-tags"],
+      "matchPackageNames": ["hmcts/cnp-jenkins-library"],
       "matchUpdateTypes": [
         "minor",
         "patch"
@@ -10,6 +12,8 @@
       "automergeType": "pr"
     },
     {
+      "matchDatasources": ["github-tags"],
+      "matchPackageNames": ["hmcts/cnp-jenkins-library"],
       "matchUpdateTypes": [
         "major"
       ],

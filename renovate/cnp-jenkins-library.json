@@ -3,7 +3,7 @@
   "packageRules": [
     {
       "matchDatasources": ["github-tags"],
-      "matchPackages": ["hmcts/cnp-jenkins-library"],
+      "matchPackageNames": ["hmcts/cnp-jenkins-library"],
       "matchUpdateTypes": [
         "minor",
         "patch"
@@ -13,7 +13,7 @@
     },
     {
       "matchDatasources": ["github-tags"],
-      "matchPackages": ["hmcts/cnp-jenkins-library"],
+      "matchPackageNames": ["hmcts/cnp-jenkins-library"],
       "matchUpdateTypes": [
         "major"
       ],

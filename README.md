@@ -23,6 +23,15 @@ Global renovate configuration is contained within this repository, use this to i
 | `./renovate/global.json` | Deprecated, use ./renovate-config.json instead|
 | `./renovate/cpp-terraform-azurerm-key-vault.json` | This is a Terraform module specific Renovate preset, use it to keep this Terraform up to date within your consuming repository. It will automatically raise and approve PRs (which will be merge if auto-merge is on) for `patch` and `minor` versions, will raise PRs requiring human review for `major` versions.
 
+## Local Renovate validation
+
+Use following Make target to validate new Renovate config/preset, this allows you to catch typos and other simple problems before you merge your changes and Renovate scan rolls around which can take a while.  
+Note: validation may fail due to suggested config migration but this is not an indication it will not work, it just suggests we should update the configuration to more recent.
+
+```bash
+RENOVATE_CONFIG_FILE=<path-to-renovate-file> make renovate
+```
+
 ### Adding presets for Terraform modules
 
 Please refer to [this readme](./documentation/adding-presets-for-modules.md) regarding adding Renovate presets for more Terraform modules.

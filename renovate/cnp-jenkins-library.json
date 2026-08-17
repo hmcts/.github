@@ -27,7 +27,7 @@
         "description": "Track @Library versions in Jenkinsfiles via GitHub releases",
         "managerFilePatterns": ["/^Jenkinsfile_.*$/"],
         "matchStrings": [
-           "@Library\\(\\s*[\"'](?<depName>[^@\"']+)@(?<currentValue>[^\"']+)[\"']\\s*\\)"
+           "@Library\\(\\s*(?:value\\s*=\\s*)?[\"'](?<depName>[^@\"']+)@(?<currentValue>[^\"']+)[\"'](?:\\s*,\\s*changelog\\s*=\\s*(?:true|false))?\\s*\\)"
         ],
         "datasourceTemplate": "github-tags",
         "packageNameTemplate": "hmcts/cnp-jenkins-library",

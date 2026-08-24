@@ -22,7 +22,7 @@ In the interest of creating a friendly collaboration environment, please read an
 ### Understanding the repository
 
 Before making a change, it may be useful to review our technical documentation. In particular:
-- How to replicate pipeline tests and checks locally
+- [How to replicate pipeline tests and checks locally](https://hmcts.github.io/cloud-native-platform/guides/local-development.html)
 - [How GitHub labels change pipeline behaviour](https://github.com/hmcts/cnp-jenkins-library#pr-label-behaviour)
 - [Continuous Delivery](https://hmcts.github.io/standards/principles/continuous-delivery.html)
 

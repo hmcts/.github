@@ -24,9 +24,52 @@
   "packageRules": [
     {
       "groupName": "flyway",
-      "matchPackagePatterns": [
+      "matchPackageNames": [
         "flyway"
       ]
+    },
+    {
+      "matchDatasources": [
+        "github-tags"
+      ],
+      "matchPackageNames": [
+        "hmcts/cnp-jenkins-library"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
+      "automerge": true,
+      "automergeType": "pr"
+    },
+    {
+      "matchDatasources": [
+        "github-tags"
+      ],
+      "matchPackageNames": [
+        "hmcts/cnp-jenkins-library"
+      ],
+      "matchUpdateTypes": [
+        "major"
+      ],
+      "automerge": false,
+      "platformAutomerge": false
+    }
+  ],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "description": "Track @Library versions in Jenkinsfiles via GitHub tags",
+      "managerFilePatterns": [
+        "/^Jenkinsfile_.*$/"
+      ],
+      "matchStrings": [
+        "@Library\\(\\s*(?:value\\s*=\\s*)?[\"'](?<depName>[^@\"']+)@(?<currentValue>[^\"']+)[\"'](?:\\s*,\\s*changelog\\s*=\\s*(?:true|false))?\\s*\\)"
+      ],
+      "datasourceTemplate": "github-tags",
+      "packageNameTemplate": "hmcts/cnp-jenkins-library",
+      "depNameTemplate": "Jenkins-{{{depName}}}",
+      "versioningTemplate": "semver"
     }
   ],
   "hostRules": [

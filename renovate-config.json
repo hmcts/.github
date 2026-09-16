@@ -54,6 +54,18 @@
       ],
       "automerge": false,
       "platformAutomerge": false
+    },
+    {
+      "description": "The java Helm chart is not a Java runtime - lift the built-in Java LTS version filter (workarounds:javaLTSVersions matches deps named java)",
+      "matchDatasources": [
+        "docker"
+      ],
+      "matchPackageNames": [
+        "hmctsprod.azurecr.io/helm/java",
+        "hmctspublic.azurecr.io/helm/java"
+      ],
+      "allowedVersions": "/^\\d+\\.\\d+\\.\\d+$/",
+      "versioning": "semver"
     }
   ],
   "customManagers": [

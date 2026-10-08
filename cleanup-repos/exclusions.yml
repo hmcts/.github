@@ -1,0 +1,33 @@
+# Repositories permanently excluded from auto-archive (no topic review Slack cycle).
+# Teams can also self-service with one topic:
+#   no-auto-archive-reviewed-YYYY-MM-DD  (renew every 700 days when Slack asks)
+repositories:
+  - ccd-case-migration-template
+  - chart-ccd-elasticsearch
+  - chart-idam-preview
+  - cnp-java-base
+  - cnp-module-action-group
+  - cnp-module-metric-alert
+  - cnp-module-api-mgmt-api
+  - cnp-module-api-mgmt-api-policy
+  - cnp-module-api-mgmt-product
+  - cnp-plum-batch
+  - idam-docker-utils
+  - one-per-page
+  - security-test-rules
+  - sscs-case-creator
+  - ethos-repl-migration-caseloader
+  - ccd-docker-user-profile-importer
+  - rdo-ssl-creation
+  - div-test-harness
+  - vh-core-infra
+  - vh-monitoring
+  - probatemandb
+  - terraform-module-servicebus-subscription
+  - terraform-module-servicebus-queue
+  - chart-function
+  - cnp-artifactory-init
+  - cnp-node-base
+  - sandbox-auto-cleardown
+  - dtspo-orphan-resources-cleanup
+  - auto-shutdown

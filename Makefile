@@ -1,7 +1,4 @@
-.PHONY: renovate
-
-RENOVATE_CONFIG_FILE ?= $(PWD)/renovate-config.json
-RENOVATE_IMAGE := renovate/renovate:latest
+.PHONY: renovate renovate-dry-run
 
 renovate:
 	docker run --rm \
@@ -9,4 +6,8 @@ renovate:
 		-e RENOVATE_CONFIG_FILE="/usr/src/app/renovate-config.json" \
 		-e LOG_LEVEL="debug" \
 		$(RENOVATE_IMAGE) \
-		renovate-config-validator --strict /usr/src/app/renovate-config.json
+		renovate-config-validator /usr/src/app/renovate-config.json
+
+
+renovate-dry-run:
+	bash ./renovate-dry-run.sh

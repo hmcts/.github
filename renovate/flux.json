@@ -31,14 +31,79 @@
       "platformAutomerge": true
     },
     {
-      "matchPackageNames": ["hmctspublic.azurecr.io/jenkins/jenkins", "hmctsprod.azurecr.io/jenkins/jenkins"],
-      "automerge": true,
+      "description": "Require manual merging for Jenkins controller updates by default",
+      "matchPackageNames": ["hmctsprod.azurecr.io/jenkins/jenkins"],
+      "groupName": "Jenkins controller and chart versions",
+      "groupSlug": "jenkins-versions",
+      "separateMajorMinor": false,
+      "separateMinorPatch": false,
+      "automerge": false,
+      "platformAutomerge": false,
       "automergeType": "pr",
       "schedule": "before 6am every weekday",
       "automergeSchedule": ["before 6am every weekday"]
     },
     {
-      "matchPackageNames": ["hmctspublic.azurecr.io/imported/kiwigrid/k8s-sidecar", "hmctsprod.azurecr.io/imported/kiwigrid/k8s-sidecar"],
+      "description": "Automerge Jenkins controller updates in sandbox only",
+      "matchPackageNames": ["hmctsprod.azurecr.io/jenkins/jenkins"],
+      "groupName": "Jenkins sandbox updates",
+      "groupSlug": "jenkins-sandbox",
+      "matchFileNames": [
+        "**/*sbox*/jenkins-controller-version.yaml"
+      ],
+      "automerge": true,
+      "automergeType": "pr"
+    },
+    {
+      "description": "Require manual merging for Jenkins chart updates by default.",
+      "matchDatasources": ["helm"],
+      "matchPackageNames": ["jenkins"],
+      "versioning": "semver",
+      "groupName": "Jenkins controller and chart versions",
+      "groupSlug": "jenkins-versions",
+      "separateMajorMinor": false,
+      "separateMinorPatch": false,
+      "automerge": false,
+      "platformAutomerge": false,
+      "automergeType": "pr",
+      "schedule": "before 6am every weekday",
+      "automergeSchedule": ["before 6am every weekday"]
+    },
+    {
+      "description": "Automerge Jenkins chart minor and patch updates in sandbox only",
+      "matchDatasources": ["helm"],
+      "matchPackageNames": ["jenkins"],
+      "groupName": "Jenkins sandbox updates",
+      "groupSlug": "jenkins-sandbox",
+      "matchFileNames": [
+        "**/*sbox*/jenkins.yaml"
+      ],
+      "matchUpdateTypes": ["minor", "patch"],
+      "automerge": true,
+      "automergeType": "pr"
+    },
+    {
+      "description": "Require manual merging for k8s-sidecar by default",
+      "matchPackageNames": ["hmctsprod.azurecr.io/imported/kiwigrid/k8s-sidecar"],
+      "groupName": "Jenkins controller and chart versions",
+      "groupSlug": "jenkins-versions",
+      "separateMajorMinor": false,
+      "separateMinorPatch": false,
+      "automerge": false,
+      "platformAutomerge": false,
+      "automergeType": "pr",
+      "schedule": "before 6am every weekday",
+      "automergeSchedule": ["before 6am every weekday"]
+    },
+    {
+      "description": "Automerge k8s-sidecar minor and patch updates in sandbox only",
+      "matchPackageNames": ["hmctsprod.azurecr.io/imported/kiwigrid/k8s-sidecar"],
+      "matchFileNames": [
+        "**/*sbox**/jenkins.yaml"
+      ],
+      "matchUpdateTypes": ["minor", "patch"],
+      "groupName": "Jenkins sandbox updates",
+      "groupSlug": "jenkins-sandbox",
       "automerge": true,
       "automergeType": "pr",
       "schedule": "before 6am every weekday",
@@ -49,37 +114,13 @@
     {
       "description": "Update Jenkins image",
       "fileMatch": [
-        "jenkins\\.yaml$", "jenkins-controller-version\\.yaml$"
+        "jenkins-controller-version\\.yaml$"
       ],
       "matchStrings": [
-        "tag: (?<currentValue>.*)\\s+"
-      ],
-      "datasourceTemplate": "docker",
-      "depNameTemplate": "hmctspublic.azurecr.io/jenkins/jenkins",
-      "versioningTemplate": "maven"
-    },
-    {
-      "description": "Update Jenkins image (hmctsprod)",
-      "fileMatch": [
-        "jenkins\\.yaml$", "jenkins-controller-version\\.yaml$"
-      ],
-      "matchStrings": [
-        "tag: (?<currentValue>.*)\\s+"
+        "tag: (?<currentValue>[^\\s]+)"
       ],
       "datasourceTemplate": "docker",
       "depNameTemplate": "hmctsprod.azurecr.io/jenkins/jenkins",
-      "versioningTemplate": "maven"
-    },
-    {
-      "description": "Update k8s-sidecar image",
-      "fileMatch": [
-        "jenkins\\.yaml$"
-      ],
-      "matchStrings": [
-        "tag: (?<currentValue>.*)\\s+"
-      ],
-      "datasourceTemplate": "docker",
-      "depNameTemplate": "hmctspublic.azurecr.io/imported/kiwigrid/k8s-sidecar",
       "versioningTemplate": "maven"
     },
     {

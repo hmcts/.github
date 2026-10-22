@@ -1,2 +1,4 @@
 .env
 renovate-dry-run.log
+
+cleanup-repos/node_modules/

@@ -36,15 +36,17 @@ A typical HMCTS Node repository pins its Node version in up to three places, and
 | `.nvmrc` | `nvm` | `node-version` |
 | `@types/node` devDependency | `npm` | `npm` |
 
-Left alone these arrive as three unrelated PRs, and repositories end up running one Node major in Docker, another in `.nvmrc` and a third in the type definitions. The base configuration groups the `major` updates of all three under the group name `Node.js`, so a Node major bump arrives as a single PR on branch `renovate/node-js` that moves every pinned location to the same major.
+Left alone these arrive as unrelated PRs and the pins drift apart. In practice the Docker tag and `.nvmrc` stay level with each other, since both track Node LTS releases on the same cadence; the drift is concentrated in `@types/node`, which moves on npm's cadence and can end up either side of the runtime. Measured across four repositories, `pcs-frontend` was two majors ahead (`@types/node` 26 against a Node 24 image) and `rpx-xui-webapp` two behind (types 20 against Node 24).
+
+The base configuration groups the `major` updates of all three under the group name `Node.js`, so a Node major bump arrives as a single PR on branch `renovate/node-js` that moves every pinned location to the same major.
 
 Only `major` updates are grouped. `@types/node` minor and patch releases, and `.nvmrc` patch releases, stay ungrouped so routine fixes are not held behind a runtime upgrade. Because Renovate's `groupSingleUpdates` defaults to `false`, a bump with nothing to group alongside it still arrives as an ordinary single-dependency PR.
 
-`@types/node` is kept close to the runtime without needing a version ceiling here, because `config:base` pulls in `workarounds:typesNodeVersioning`, which gives `@types/node` Renovate's `node` versioning - a version only counts as stable once that Node major has entered LTS, so a new major is not offered until the matching runtime is a supported LTS. The Docker image tag gets the same treatment from `workarounds:nodeDockerVersioning`, which also understands the `-alpine` suffix.
+There is no version ceiling on `@types/node` here, and it is worth being clear about what does and does not constrain it. `config:base` pulls in `workarounds:typesNodeVersioning` and `workarounds:nodeDockerVersioning`, which give `@types/node` and the `node` Docker tag Renovate's `node` versioning - a major only counts as stable once it has entered LTS, and the Docker handling also understands the `-alpine` suffix. That ties `@types/node` to the newest Node **LTS**; it does **not** tie it to the Node the repository actually runs, which is why `pcs-frontend` reached types 26 while still building on `base/node:24`. Grouping is what closes that gap, by stopping the types major from landing on its own.
 
-One gap remains. Between a Node major entering LTS and `base/node:<major>` appearing in ACR there is nothing for `@types/node` to group with, so its major can still arrive on its own - but visibly, as a single-dependency PR, rather than buried in a Node.js group PR.
+A hard ceiling was considered and rejected: the correct ceiling is the repository's own Node major, which an org-wide preset cannot know, and a literal value would be wrong for whichever repositories are ahead or behind.
 
-Note that grouping only prevents future drift. A repository whose `@types/node` major is already ahead of its `.nvmrc` needs a one-off manual correction, because Renovate never downgrades a dependency.
+Note that grouping only prevents future drift. A repository whose `@types/node` major already disagrees with its runtime needs a one-off manual correction, because Renovate never downgrades a dependency.
 
 ## Local Renovate validation
 

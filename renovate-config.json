@@ -66,6 +66,56 @@
       ],
       "allowedVersions": "/^\\d+\\.\\d+\\.\\d+$/",
       "versioning": "semver"
+    },
+    {
+      "description": "A Node version is pinned in up to three files - the Docker base image tag, .nvmrc and the @types/node devDependency - and Renovate sees each through a different datasource. Group the major bumps so one PR moves the whole repo to the same Node major instead of three PRs that leave the files on different majors. Package name matching mirrors group:nodeJs and workarounds:nodeDockerVersioning so the same images are in scope.",
+      "groupName": "Node.js",
+      "matchDatasources": [
+        "docker",
+        "node-version"
+      ],
+      "matchPackageNames": [
+        "/(?:^|/)node$/",
+        "!calico/node",
+        "!docker.io/calico/node",
+        "!ghcr.io/devcontainers/features/node",
+        "!kindest/node",
+        "!docker.io/kindest/node"
+      ],
+      "matchUpdateTypes": [
+        "major"
+      ]
+    },
+    {
+      "description": "Join @types/node major bumps to the Node.js group so the types major cannot land on its own and leave the repo typed against a runtime it does not use. Minor and patch are deliberately left out of the group so type-definition fixes keep flowing on their own cadence.",
+      "groupName": "Node.js",
+      "matchDatasources": [
+        "npm"
+      ],
+      "matchPackageNames": [
+        "@types/node"
+      ],
+      "matchUpdateTypes": [
+        "major"
+      ]
+    },
+    {
+      "description": "The Node.js group holds one branch, so each member must offer at most one major target or two upgrades would fight over the same file. This is the Renovate default - it is restated here so a repo that turns separateMultipleMajor on globally does not break the group. It must not carry matchUpdateTypes: lookup-stage options are evaluated before the update type is known.",
+      "matchDatasources": [
+        "docker",
+        "node-version",
+        "npm"
+      ],
+      "matchPackageNames": [
+        "/(?:^|/)node$/",
+        "@types/node",
+        "!calico/node",
+        "!docker.io/calico/node",
+        "!ghcr.io/devcontainers/features/node",
+        "!kindest/node",
+        "!docker.io/kindest/node"
+      ],
+      "separateMultipleMajor": false
     }
   ],
   "customManagers": [

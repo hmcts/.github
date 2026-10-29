@@ -15,7 +15,7 @@ Global renovate configuration is contained within this repository, use this to i
 
 | Config file | Description |
 |---|---|
-| `./renovate-config.json` | Configures the basic renovate settings such as the schedule time and timezone. It also configures helm dependency manager, package rules for `Flyway` and `cnp-jenkins-library` dependencies, and some host matching rules for helm dependencies. |
+| `./renovate-config.json` | Configures the basic renovate settings such as the schedule time and timezone. It also configures helm dependency manager, package rules for `Flyway`, `cnp-jenkins-library` and Node.js dependencies, and some host matching rules for helm dependencies. |
 | `./renovate.json` | One of the default configurations available for use in your repository.  It combines settings in `renovate-config.json` with `automerge-all.json` - this means it will automatically raise PRs and auto-approve them via `renovate-approve` bots, if you have auto-merge enabled in your repository this means dependencies will always get updated automatically with no human review if the pipeline checks have passed.|
 | `./renovate/automerge-all.json` | Renovate preset for automatic raising and approving of dependency update PRs, it is not `patch/minor/major` limited and as described above might cause automatic dependency updates **so use wisely**.|
 | `./renovate/automerge-minor.json` | Renovate preset for automatic raising and approving of only the `patch` and `minor` version update PRs of the dependencies, this is a safer alternative to `automerge-all.json`.|
@@ -25,6 +25,26 @@ Global renovate configuration is contained within this repository, use this to i
 | `./renovate/cpp-terraform-azurerm-key-vault.json` | This is a Terraform module specific Renovate preset, use it to keep this Terraform up to date within your consuming repository. It will automatically raise and approve PRs (which will be merge if auto-merge is on) for `patch` and `minor` versions, will raise PRs requiring human review for `major` versions.
 
 The base configuration also detects `@Library` declarations in `Jenkinsfile_*` files and updates `hmcts/cnp-jenkins-library` from GitHub tags. Patch and minor releases are set to automerge; major releases require review.
+
+### Node.js major updates
+
+A typical HMCTS Node repository pins its Node version in up to three places, and Renovate reaches each through a different datasource:
+
+| Where | Manager | Datasource |
+|---|---|---|
+| `FROM hmctsprod.azurecr.io/base/node:<major>-<variant>` | `dockerfile` | `docker` |
+| `.nvmrc` | `nvm` | `node-version` |
+| `@types/node` devDependency | `npm` | `npm` |
+
+Left alone these arrive as three unrelated PRs, and repositories end up running one Node major in Docker, another in `.nvmrc` and a third in the type definitions. The base configuration groups the `major` updates of all three under the group name `Node.js`, so a Node major bump arrives as a single PR on branch `renovate/node-js` that moves every pinned location to the same major.
+
+Only `major` updates are grouped. `@types/node` minor and patch releases, and `.nvmrc` patch releases, stay ungrouped so routine fixes are not held behind a runtime upgrade. Because Renovate's `groupSingleUpdates` defaults to `false`, a bump with nothing to group alongside it still arrives as an ordinary single-dependency PR.
+
+`@types/node` is kept close to the runtime without needing a version ceiling here, because `config:base` pulls in `workarounds:typesNodeVersioning`, which gives `@types/node` Renovate's `node` versioning - a version only counts as stable once that Node major has entered LTS, so a new major is not offered until the matching runtime is a supported LTS. The Docker image tag gets the same treatment from `workarounds:nodeDockerVersioning`, which also understands the `-alpine` suffix.
+
+One gap remains. Between a Node major entering LTS and `base/node:<major>` appearing in ACR there is nothing for `@types/node` to group with, so its major can still arrive on its own - but visibly, as a single-dependency PR, rather than buried in a Node.js group PR.
+
+Note that grouping only prevents future drift. A repository whose `@types/node` major is already ahead of its `.nvmrc` needs a one-off manual correction, because Renovate never downgrades a dependency.
 
 ## Local Renovate validation
 

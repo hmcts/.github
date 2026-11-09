@@ -93,3 +93,25 @@ repositories:
   - aks-module-kubernetes
   - terraform-module-servicebus-topic
   - ccd-case-migration-template
+  - cp-client-mirror-gateway
+  - cp-commons
+  - cp-vodafone-services
+  - dmu
+  - dmu-batchjob
+  - pss-common-code
+  - pss-dataaccessservice
+  - pss-edt-messageloader
+  - pss-gateway
+  - pss-mirrorgateway
+  - pss-proving-messageloader
+  - pss-commons
+  - pss-schedulingservice
+  - pss-sdrs
+  - pss-test-framework
+  - pss-transformation-common
+  - pss-transformationservice
+  - pss-web-selfservice
+  - pss-xhbdataaccessservice
+  - pss-xhbgateway
+  - pss-new-pss-automation
+  - pss-cloud-sdrs
